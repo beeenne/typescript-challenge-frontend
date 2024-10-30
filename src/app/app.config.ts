@@ -4,7 +4,8 @@ import { provideEffects } from '@ngrx/effects'
 import { provideStore } from '@ngrx/store'
 import { effects, reducers } from 'src/store/app.store'
 import { routes } from './app.routes'
+import { provideHttpClient } from '@angular/common/http'
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideStore(reducers), provideEffects(effects)],
+  providers: [provideRouter(routes), provideStore(reducers), provideEffects(effects),  provideHttpClient()],
 }

@@ -1,13 +1,14 @@
+import { HttpClient } from '@angular/common/http'
 import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 import { select, Store } from '@ngrx/store'
 import { GeoJSONSource, Map } from 'maplibre-gl'
 import { MARKER_PAINT } from 'src/constants/marker-paint'
-import { u9 } from 'src/constants/u9'
 import { environment } from 'src/environments/environment'
 import { RootState } from 'src/store/app.store'
 import { TransitLinesActions } from 'src/store/transit-lines/transit-lines.actions'
 import { fromTransitLines } from 'src/store/transit-lines/transit-lines.selectors'
+import { TransitLine } from 'src/types/line'
 
 @Component({
   selector: 'app-root',
@@ -22,9 +23,12 @@ export class AppComponent implements OnInit {
 
   private map: Map
 
-  constructor(private store: Store<RootState>) {
-    // Issue https://github.com/targomo/typescript-challenge-frontend/issues/3
-    this.store.dispatch(TransitLinesActions.AddLine({ line: u9 }))
+  constructor(private store: Store<RootState>, private http: HttpClient) {
+
+    this.http.get('http://localhost:9000/transit-lines/u9?lineId=u9').subscribe((data) => {
+      this.store.dispatch(TransitLinesActions.AddLine({ line: data as TransitLine }));
+    });
+    
   }
 
   ngOnInit(): void {
