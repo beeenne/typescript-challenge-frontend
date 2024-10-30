@@ -14,4 +14,63 @@
       margin: calc(-1 * var(--small-gap));
     }
   }
+
+  .legend-wrapper {
+    display: flex;
+    font-size: 8px;
+    justify-content: flex-end;
+
+    .legend {
+      display: flex;
+      align-items: center;
+      margin-left: 10px;
+      
+      .point {
+        height: 8px;
+        width: 8px;
+        border-radius: 50px;
+        margin-right: 2px;
+      }
+
+      .green {
+        background-color: green;
+      }
+    
+      .red {
+        background-color: red;
+      }
+    }
+  }
+
+  .boxes-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .boxes {
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 7px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.2s ease-in-out;
+      padding: 15px;
+      justify-content: space-between;
+
+      .title {
+        display: flex;
+        flex-direction: column;
+        
+        .subtitle {
+          font-size: 8px;
+        }
+      }
+       
+      .value {
+        font-size: 30px;
+      }
+
+    }
+  }
+  
 }

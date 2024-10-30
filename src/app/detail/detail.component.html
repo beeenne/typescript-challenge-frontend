@@ -5,6 +5,39 @@
   </button>
 </div>
 
-<span>Its very empty here (ಠ_ಠ)</span>
+<div class="boxes-wrapper">
+  <div class="boxes">
+    <div class="title">
+      <mat-icon>person_add</mat-icon>
+      <span class="subtitle">People new on the line</span>
+    </div>
+    <span class="value" [ngStyle]="getColor(selectedStop()?.peopleOn, 'peopleOn')">{{selectedStop()?.peopleOn.toLocaleString('de-DE') ?? 0}}</span>
+  </div>
+  <div class="boxes">
+    <div class="title">      
+      <mat-icon>person_remove</mat-icon>
+      <span class="subtitle">People getting off</span>
+    </div>
+    <span class="value" [ngStyle]="getColor(selectedStop()?.peopleOff, 'peopleOff')">{{selectedStop()?.peopleOff.toLocaleString('de-DE') ?? 0}}</span>
+  </div>
+  <div class="boxes">
+    <div class="title">
+      <mat-icon>pedal_bike</mat-icon>
+      <span class="subtitle">Reachable population biking</span>
+    </div>
+    <span class="value" [ngStyle]="getColor(selectedStop()?.reachablePopulationBike, 'reachablePopulationBike')">{{selectedStop()?.reachablePopulationBike.toLocaleString('de-DE') ?? 0}}</span>
+  </div>
+  <div class="boxes">
+    <div class="title">
+      <mat-icon>directions_walk</mat-icon>
+      <span class="subtitle">Reachable population walking</span>
+    </div>
+    <div class="value" [ngStyle]="getColor(selectedStop()?.reachablePopulationWalk, 'reachablePopulationWalk')">{{selectedStop()?.reachablePopulationWalk.toLocaleString('de-DE') ?? 0}}</div>
+  </div>
+</div>
 
-<!-- TODO add more info about the stop -->
+<div class="legend-wrapper">
+  <span class="legend" ><div class="point green"></div>higher than average</span>
+  <span class="legend" ><div class="point red"></div>lower than average</span>
+</div>
+
