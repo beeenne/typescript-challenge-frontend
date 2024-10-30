@@ -15,26 +15,27 @@ import { TransitLine } from 'src/types/line'
   imports: [MatIcon],
 })
 export class HomeComponent {
-  readonly lines: WritableSignal<TransitLine[]> = signal<TransitLine[]>([]);
-  readonly showLineStops: Record<string, boolean> = {};
+  readonly lines: WritableSignal<TransitLine[]> = signal<TransitLine[]>([])
+  readonly showLineStops: Record<string, boolean> = {}
 
 
   constructor(private store: Store<RootState>, private renderer: Renderer2) {
     this.store.select(fromTransitLines.selectAll).subscribe((transitLines: TransitLine[]) => {
-      this.lines.set(transitLines); 
+      this.lines.set(transitLines);
       for (let line of this.lines()) {
-        const storageBool = localStorage.getItem(line.id);
-        this.showLineStops[line.id] = storageBool ? storageBool === 'true' : false;
+        const storageBool = localStorage.getItem(line.id)
+        this.showLineStops[line.id] = storageBool ? storageBool === 'true' : false
       }
     });
   }
   
-  ngOnInit() {
-    this.renderer.listen('window', 'beforeunload', () => this.ngOnDestroy());  }
+  OnInit() {
+    this.renderer.listen('window', 'beforeunload', () => this.OnDestroy())
+  }
 
-  ngOnDestroy() {
+  OnDestroy() {
     for (let [key, value] of Object.entries(this.showLineStops)) {
-      localStorage.setItem(key, value.toString());
+      localStorage.setItem(key, value.toString())
     }
   }
 

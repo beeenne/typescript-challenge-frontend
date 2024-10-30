@@ -26,9 +26,9 @@ export class AppComponent implements OnInit {
   constructor(private store: Store<RootState>, private http: HttpClient) {
 
     this.http.get('http://localhost:9000/transit-lines/u9?lineId=u9').subscribe((data) => {
-      this.store.dispatch(TransitLinesActions.AddLine({ line: data as TransitLine }));
+      this.store.dispatch(TransitLinesActions.AddLine({ line: data as TransitLine }))
     });
-    
+
   }
 
   ngOnInit(): void {
