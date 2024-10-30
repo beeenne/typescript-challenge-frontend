@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Signal } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Renderer2, WritableSignal, signal } from '@angular/core'
 import { MatIcon } from '@angular/material/icon'
 import { Store } from '@ngrx/store'
 import { RootState } from 'src/store/app.store'
@@ -15,14 +15,26 @@ import { TransitLine } from 'src/types/line'
   imports: [MatIcon],
 })
 export class HomeComponent {
-  readonly lines: Signal<TransitLine[]>
-  readonly showLineStops: Record<string, boolean>[] = [];
+  readonly lines: WritableSignal<TransitLine[]> = signal<TransitLine[]>([]);
+  readonly showLineStops: Record<string, boolean> = {};
 
 
-  constructor(private store: Store<RootState>) {
-    this.lines = this.store.selectSignal(fromTransitLines.selectAll)
-    for (let line of this.lines()) {
-      this.showLineStops.push({ [line.id]: false});
+  constructor(private store: Store<RootState>, private renderer: Renderer2) {
+    this.store.select(fromTransitLines.selectAll).subscribe((transitLines: TransitLine[]) => {
+      this.lines.set(transitLines); 
+      for (let line of this.lines()) {
+        const storageBool = localStorage.getItem(line.id);
+        this.showLineStops[line.id] = storageBool ? storageBool === 'true' : false;
+      }
+    });
+  }
+  
+  ngOnInit() {
+    this.renderer.listen('window', 'beforeunload', () => this.ngOnDestroy());  }
+
+  ngOnDestroy() {
+    for (let [key, value] of Object.entries(this.showLineStops)) {
+      localStorage.setItem(key, value.toString());
     }
   }
 
