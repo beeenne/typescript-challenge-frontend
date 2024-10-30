@@ -16,9 +16,14 @@ import { TransitLine } from 'src/types/line'
 })
 export class HomeComponent {
   readonly lines: Signal<TransitLine[]>
+  readonly showLineStops: Record<string, boolean>[] = [];
+
 
   constructor(private store: Store<RootState>) {
     this.lines = this.store.selectSignal(fromTransitLines.selectAll)
+    for (let line of this.lines()) {
+      this.showLineStops.push({ [line.id]: false});
+    }
   }
 
   selectStop(selectedStopId: string): void {
