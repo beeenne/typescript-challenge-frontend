@@ -15,6 +15,7 @@ import { TransitLine } from 'src/types/line'
   imports: [MatIcon],
 })
 export class HomeComponent {
+
   readonly lines: WritableSignal<TransitLine[]> = signal<TransitLine[]>([])
   readonly showLineStops: Record<string, boolean> = {}
 
@@ -38,8 +39,9 @@ export class HomeComponent {
       localStorage.setItem(key, value.toString())
     }
   }
-
+  
   selectStop(selectedStopId: string): void {
+    localStorage.setItem('selectedStop', selectedStopId);
     this.store.dispatch(TransitLinesActions.SelectStop({ selectedStopId }))
   }
 }

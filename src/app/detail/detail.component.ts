@@ -32,28 +32,28 @@ export class DetailComponent {
     const allStops$ = toObservable(this.store.selectSignal(fromTransitLines.allStops));
     const selectedStop$ = toObservable(this.store.selectSignal(fromTransitLines.selectedStop));
 
-  combineLatest([allStops$, selectedStop$])
-    .pipe()
-    .subscribe(([allStops, selectedStop]) => {
+    combineLatest([allStops$, selectedStop$])
+      .pipe()
+      .subscribe(([allStops, selectedStop]) => {
 
-      this.averages = allStops?.reduce((acc, obj) => {
-        acc.count += 1
-        acc.peopleOnAverage += Math.floor(obj.peopleOn / acc.count)
-        acc.peopleOffAverage += Math.floor(obj.peopleOff / acc.count)
-        acc.reachablePopulationWalkAverage += Math.floor(obj.reachablePopulationWalk / acc.count)
-        acc.reachablePopulationBikeAverage += Math.floor(obj.reachablePopulationBike / acc.count)
-        return acc
-      }, { peopleOnAverage: 0, peopleOffAverage: 0, reachablePopulationWalkAverage: 0, reachablePopulationBikeAverage: 0, count: 0 })
-      
-      if (selectedStop) {
-        this.selectedStop.set(selectedStop);
-      } else {
-        const storageStopId = localStorage.getItem('selectedStop');
+        this.averages = allStops?.reduce((acc, obj) => {
+          acc.count += 1
+          acc.peopleOnAverage += Math.floor(obj.peopleOn / acc.count)
+          acc.peopleOffAverage += Math.floor(obj.peopleOff / acc.count)
+          acc.reachablePopulationWalkAverage += Math.floor(obj.reachablePopulationWalk / acc.count)
+          acc.reachablePopulationBikeAverage += Math.floor(obj.reachablePopulationBike / acc.count)
+          return acc
+        }, { peopleOnAverage: 0, peopleOffAverage: 0, reachablePopulationWalkAverage: 0, reachablePopulationBikeAverage: 0, count: 0 })
         
-        const storageStop = allStops.find((stop) => stop.id === storageStopId);
-        this.selectedStop.set(storageStop || null);
-      }
-    });
+        if (selectedStop) {
+          this.selectedStop.set(selectedStop);
+        } else {
+          const storageStopId = localStorage.getItem('selectedStop');
+          
+          const storageStop = allStops.find((stop) => stop.id === storageStopId);
+          this.selectedStop.set(storageStop || null);
+        }
+      });
   }
 
   getColor(value: number, key: string) {
